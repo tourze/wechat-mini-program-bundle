@@ -1,0 +1,38 @@
+{
+  "name": "tourze/wechat-mini-program-core-bundle",
+  "description": "微信小程序核心模块",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "require": {
+    "php": "^8.1",
+    "symfony/security-core": "^6.4",
+    "symfony/config": "^6.4",
+    "symfony/dependency-injection": "^6.4",
+    "symfony/http-kernel": "^6.4",
+    "symfony/http-foundation": "^6.4",
+    "symfony/framework-bundle": "^6.4",
+    "tourze/doctrine-ip-bundle": "0.0.*",
+    "tourze/doctrine-indexed-bundle": "0.0.*",
+    "tourze/doctrine-user-bundle": "0.0.*",
+    "tourze/doctrine-timestamp-bundle": "0.0.*",
+    "tourze/easy-admin-attribute": "0.0.*",
+    "tourze/arrayable": "0.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tourze\\WechatMiniProgramCoreBundle\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tourze\\WechatMiniProgramCoreBundle\\Tests\\": "tests"
+    }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^10.0"
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse src -l 1"
+  }
+}
