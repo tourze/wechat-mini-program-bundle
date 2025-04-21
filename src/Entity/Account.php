@@ -5,7 +5,6 @@ namespace Tourze\WechatMiniProgramCoreBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Attribute\Groups;
 use Tourze\Arrayable\AdminArrayInterface;
 use Tourze\Arrayable\ApiArrayInterface;
 use Tourze\Arrayable\Arrayable;
@@ -42,13 +41,11 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
 {
     #[ListColumn(order: -1)]
     #[ExportColumn]
-    #[Groups(['restful_read', 'api_tree', 'admin_curd', 'api_list'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
     private ?int $id = 0;
 
-    #[Groups(['admin_curd'])]
     #[TrackColumn]
     #[FormField(span: 18)]
     #[Keyword]
@@ -56,7 +53,6 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
     #[ORM\Column(type: Types::STRING, length: 32, unique: true, options: ['comment' => '名称'])]
     private ?string $name = null;
 
-    #[Groups(['admin_curd'])]
     #[TrackColumn]
     #[FormField(span: 10)]
     #[Keyword]
@@ -64,7 +60,6 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
     #[ORM\Column(type: Types::STRING, length: 64, unique: true, options: ['comment' => 'AppID'])]
     private ?string $appId = null;
 
-    #[Groups(['admin_curd'])]
     #[TrackColumn]
     #[FormField(span: 14)]
     #[Keyword]
@@ -72,7 +67,6 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
     #[ORM\Column(type: Types::STRING, length: 120, options: ['comment' => 'AppSecret'])]
     private ?string $appSecret = null;
 
-    #[Groups(['admin_curd'])]
     #[TrackColumn]
     #[FormField]
     #[Keyword]
@@ -80,21 +74,18 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
     #[ORM\Column(type: Types::STRING, length: 128, nullable: true, options: ['comment' => '加解密TOKEN'])]
     private ?string $token = null;
 
-    #[Groups(['admin_curd'])]
     #[TrackColumn]
     #[FormField]
     #[Keyword]
     #[ORM\Column(type: Types::STRING, length: 128, nullable: true, options: ['comment' => '消息加密密钥'])]
     private ?string $encodingAesKey = null;
 
-    #[Groups(['admin_curd'])]
     #[TrackColumn]
     #[FormField]
     #[ListColumn]
     #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['comment' => '登录过期天数'])]
     private ?int $loginExpireDay = null;
 
-    #[Groups(['admin_curd'])]
     #[TrackColumn]
     #[ORM\Column(type: Types::STRING, length: 120, nullable: true, options: ['comment' => '插件Token'])]
     private ?string $pluginToken = null;
@@ -108,19 +99,16 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
     #[BoolColumn]
     #[IndexColumn]
     #[TrackColumn]
-    #[Groups(['admin_curd', 'restful_read', 'restful_read', 'restful_write'])]
     #[ORM\Column(type: Types::BOOLEAN, nullable: true, options: ['comment' => '有效', 'default' => 0])]
     #[ListColumn(order: 97)]
     #[FormField(order: 97)]
     private ?bool $valid = false;
 
     #[CreatedByColumn]
-    #[Groups(['restful_read'])]
     #[ORM\Column(nullable: true, options: ['comment' => '创建人'])]
     private ?string $createdBy = null;
 
     #[UpdatedByColumn]
-    #[Groups(['restful_read'])]
     #[ORM\Column(nullable: true, options: ['comment' => '更新人'])]
     private ?string $updatedBy = null;
 
@@ -137,13 +125,11 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
     #[ListColumn(order: 98, sorter: true)]
     #[ExportColumn]
     #[CreateTimeColumn]
-    #[Groups(['restful_read', 'admin_curd', 'restful_read'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '创建时间'])]
     private ?\DateTimeInterface $createTime = null;
 
     #[UpdateTimeColumn]
     #[ListColumn(order: 99, sorter: true)]
-    #[Groups(['restful_read', 'admin_curd', 'restful_read'])]
     #[Filterable]
     #[ExportColumn]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '更新时间'])]
