@@ -5,5 +5,9 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     public: false
 
-  Tourze\WechatMiniProgramCoreBundle\Service\:
+  WechatMiniProgramBundle\DataFixtures\:
+    resource: '../../DataFixtures/'
+  WechatMiniProgramBundle\Repository\:
+    resource: '../../Repository/'
+  WechatMiniProgramBundle\Service\:
     resource: '../../Service/'

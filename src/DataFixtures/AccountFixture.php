@@ -1,10 +1,10 @@
 <?php
 
-namespace Tourze\WechatMiniProgramCoreBundle\DataFixtures;
+namespace WechatMiniProgramBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Tourze\WechatMiniProgramCoreBundle\Entity\Account;
+use WechatMiniProgramBundle\Entity\Account;
 
 class AccountFixture extends Fixture
 {

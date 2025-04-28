@@ -1,6 +1,6 @@
 <?php
 
-namespace Tourze\WechatMiniProgramCoreBundle\Entity;
+namespace WechatMiniProgramBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,7 +28,7 @@ use Tourze\EasyAdmin\Attribute\Field\FormField;
 use Tourze\EasyAdmin\Attribute\Filter\Filterable;
 use Tourze\EasyAdmin\Attribute\Filter\Keyword;
 use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
-use Tourze\WechatMiniProgramCoreBundle\Repository\AccountRepository;
+use WechatMiniProgramBundle\Repository\AccountRepository;
 
 #[AsPermission(title: '微信小程序账号')]
 #[Listable]

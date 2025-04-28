@@ -1,10 +1,10 @@
 <?php
 
-namespace Tourze\WechatMiniProgramCoreBundle\Repository;
+namespace WechatMiniProgramBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Tourze\WechatMiniProgramCoreBundle\Entity\Account;
+use WechatMiniProgramBundle\Entity\Account;
 
 /**
  * @method Account|null find($id, $lockMode = null, $lockVersion = null)

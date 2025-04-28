@@ -22,17 +22,18 @@
     "tourze/doctrine-track-bundle": "0.0.*",
     "tourze/doctrine-timestamp-bundle": "0.0.*",
     "tourze/easy-admin-attribute": "0.0.*",
+    "tourze/http-client-bundle": "0.0.*",
     "symfony/yaml": "^6.4 || ^7.1",
     "tourze/arrayable": "0.0.*"
   },
   "autoload": {
     "psr-4": {
-      "Tourze\\WechatMiniProgramCoreBundle\\": "src"
+      "WechatMiniProgramBundle\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tourze\\WechatMiniProgramCoreBundle\\Tests\\": "tests"
+      "WechatMiniProgramBundle\\Tests\\": "tests"
     }
   },
   "require-dev": {
