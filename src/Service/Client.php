@@ -17,7 +17,6 @@ use WechatMiniProgramBundle\Helper\AES;
 use WechatMiniProgramBundle\Request\RawResponseAPI;
 use WechatMiniProgramBundle\Request\StableTokenRequest;
 use WechatMiniProgramBundle\Request\WithAccountRequest;
-use Yiisoft\Json\Json;
 
 /**
  * 微信小程序请求客户端
@@ -164,7 +163,7 @@ class Client extends ApiClient
     {
         $options = $request->getRequestOptions();
         if (isset($options['json'])) {
-            $options['body'] = Json::encode($options['json']);
+            $options['body'] = json_encode($options['json']);
             unset($options['json']);
         }
 
@@ -177,7 +176,7 @@ class Client extends ApiClient
             return $response->getContent();
         }
 
-        $json = Json::decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
 
         $errCode = intval($json['errcode'] ?? 0);
         if (0 !== $errCode) {
