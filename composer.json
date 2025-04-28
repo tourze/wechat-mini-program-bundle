@@ -8,6 +8,7 @@
     "ext-libxml": "*",
     "ext-openssl": "*",
     "ext-simplexml": "*",
+    "nesbot/carbon": "^2.72 || ^3",
     "doctrine/doctrine-fixtures-bundle": "^4.0",
     "doctrine/data-fixtures": "^2.0",
     "doctrine/dbal": "^4.0",
