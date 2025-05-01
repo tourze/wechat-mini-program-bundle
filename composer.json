@@ -33,6 +33,7 @@
     "tourze/http-client-bundle": "0.1.*",
     "tourze/backtrace-helper": "~0.0.5",
     "tourze/arrayable": "0.0.*",
+    "tourze/wechat-helper": "0.0.*",
     "psr/log": "^3|^2|^1"
   },
   "autoload": {
