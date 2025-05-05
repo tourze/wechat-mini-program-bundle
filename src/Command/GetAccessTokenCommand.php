@@ -6,7 +6,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\VarDumper\VarDumper;
 use Tourze\Symfony\CronJob\Attribute\AsCronTask;
 use WechatMiniProgramBundle\Repository\AccountRepository;
 use WechatMiniProgramBundle\Service\Client;
@@ -29,7 +28,7 @@ class GetAccessTokenCommand extends Command
     {
         foreach ($this->accountRepository->findBy(['valid' => true]) as $account) {
             $token = $this->client->getAccountAccessToken($account);
-            VarDumper::dump($token);
+            $output->writeln(sprintf('<info>Access token: %s</info>', json_encode($token)));
         }
 
         return Command::SUCCESS;

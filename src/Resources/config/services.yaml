@@ -5,8 +5,12 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     public: false
 
+  WechatMiniProgramBundle\Command\:
+    resource: '../../Command/'
   WechatMiniProgramBundle\DataFixtures\:
     resource: '../../DataFixtures/'
+  WechatMiniProgramBundle\Procedure\:
+    resource: '../../Procedure/'
   WechatMiniProgramBundle\Repository\:
     resource: '../../Repository/'
   WechatMiniProgramBundle\Service\:

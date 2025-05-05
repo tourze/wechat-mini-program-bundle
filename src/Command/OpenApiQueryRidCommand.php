@@ -7,7 +7,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\VarExporter\VarExporter;
 use WechatMiniProgramBundle\Repository\AccountRepository;
 use WechatMiniProgramBundle\Request\GetRidRequest;
 use WechatMiniProgramBundle\Service\Client;
@@ -41,7 +40,7 @@ class OpenApiQueryRidCommand extends Command
         $request->setRid($input->getArgument('rid'));
         $response = $this->client->request($request);
         // 直接打印结果出来，给开发者看的啦
-        $output->writeln(VarExporter::export($response));
+        $output->writeln(json_encode($response, JSON_PRETTY_PRINT));
 
         return Command::SUCCESS;
     }

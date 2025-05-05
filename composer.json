@@ -38,6 +38,8 @@
     "tourze/json-rpc-core": "^0.0.6",
     "tourze/json-rpc-log-bundle": "0.1.*",
     "tourze/easy-admin-menu-bundle": "0.1.*",
+    "tourze/enum-extra": "~0.0.5",
+    "knplabs/knp-menu": "^3.7",
     "yiisoft/arrays": "^3",
     "psr/link": "^1.1|^2.0",
     "psr/log": "^3|^2|^1"
