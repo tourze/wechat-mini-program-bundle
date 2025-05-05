@@ -11,9 +11,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Tourze\BacktraceHelper\Backtrace;
-use Tourze\WechatHelper\AES;
 use WechatMiniProgramBundle\Entity\Account;
-use WechatMiniProgramBundle\Exception\DecryptException;
 use WechatMiniProgramBundle\Request\RawResponseAPI;
 use WechatMiniProgramBundle\Request\StableTokenRequest;
 use WechatMiniProgramBundle\Request\WithAccountRequest;
@@ -89,26 +87,6 @@ class Client extends ApiClient
             return "https://{$domain}";
         }
         throw new \RuntimeException('找不到能使用的微信小程序地址');
-    }
-
-    /**
-     * Decrypt data.
-     */
-    public function decryptData(string $sessionKey, string $iv, string $encrypted): array
-    {
-        $decrypted = AES::decrypt(
-            base64_decode($encrypted, false),
-            base64_decode($sessionKey, false),
-            base64_decode($iv, false)
-        );
-
-        $decrypted = json_decode($decrypted, true);
-
-        if (!$decrypted) {
-            throw new DecryptException('The given payload is invalid.');
-        }
-
-        return $decrypted;
     }
 
     /**
