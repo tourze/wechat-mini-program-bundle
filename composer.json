@@ -35,12 +35,12 @@
     "tourze/doctrine-timestamp-bundle": "0.0.*",
     "tourze/doctrine-track-bundle": "0.1.*",
     "tourze/doctrine-user-bundle": "0.0.*",
-    "tourze/easy-admin-attribute": "0.1.*",
     "tourze/easy-admin-menu-bundle": "0.1.*",
     "tourze/enum-extra": "~0.0.5",
     "tourze/http-client-bundle": "0.1.*",
     "tourze/json-rpc-core": "^0.0.6",
     "tourze/json-rpc-log-bundle": "0.1.*",
+    "tourze/symfony-ecol-bundle": "0.1.*",
     "tourze/wechat-helper": "0.0.*",
     "yiisoft/arrays": "^3"
   },
