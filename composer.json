@@ -43,6 +43,7 @@
     "tourze/json-rpc-log-bundle": "0.1.*",
     "tourze/symfony-cron-job-bundle": "0.1.*",
     "tourze/wechat-helper": "0.0.*",
+    "tourze/wechat-mini-program-appid-contracts": "0.0.*",
     "yiisoft/arrays": "^3"
   },
   "require-dev": {

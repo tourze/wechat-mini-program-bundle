@@ -28,6 +28,7 @@ use Tourze\EasyAdmin\Attribute\Field\FormField;
 use Tourze\EasyAdmin\Attribute\Filter\Filterable;
 use Tourze\EasyAdmin\Attribute\Filter\Keyword;
 use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
+use Tourze\WechatMiniProgramAppIDContracts\MiniProgramInterface;
 use WechatMiniProgramBundle\Repository\AccountRepository;
 
 #[AsPermission(title: '微信小程序账号')]
@@ -37,7 +38,7 @@ use WechatMiniProgramBundle\Repository\AccountRepository;
 #[Creatable]
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[ORM\Table(name: 'wechat_mini_program_account', options: ['comment' => '微信小程序账户'])]
-class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayInterface, AdminArrayInterface
+class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayInterface, AdminArrayInterface, MiniProgramInterface
 {
     #[ListColumn(order: -1)]
     #[ExportColumn]
@@ -161,7 +162,7 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
         return $this;
     }
 
-    public function getAppId(): ?string
+    public function getAppId(): string
     {
         return $this->appId;
     }
@@ -173,7 +174,7 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
         return $this;
     }
 
-    public function getAppSecret(): ?string
+    public function getAppSecret(): string
     {
         return $this->appSecret;
     }
