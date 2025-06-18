@@ -26,11 +26,7 @@ class StableTokenRequestTest extends TestCase
         $this->request->setSecret('test_secret');
 
         $options = $this->request->getRequestOptions();
-
-        $this->assertIsArray($options);
         $this->assertArrayHasKey('json', $options);
-        $this->assertIsArray($options['json']);
-
         // 验证默认值
         $this->assertEquals('client_credential', $options['json']['grant_type']);
         $this->assertEquals('test_app_id', $options['json']['appid']);

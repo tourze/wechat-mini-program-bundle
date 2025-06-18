@@ -22,12 +22,12 @@ class AccountService
      */
     public function detectAccountFromRequest(?Request $request, string $appId = ''): ?Account
     {
-        if (empty($appId) && null !== $request) {
+        if ((bool) empty($appId) && null !== $request) {
             $appId = $request->headers->get('weapp-appid');
         }
 
         $account = null;
-        if ($appId) {
+        if ((bool) $appId) {
             $account = $this->accountRepository->findOneBy([
                 'appId' => $appId,
             ]);
@@ -42,7 +42,7 @@ class AccountService
         }
 
         // 在特殊情况下，我们会找不到直接关联的小程序，那么走回去之前的兼容逻辑
-        if (!$account && isset($_ENV['SNS_WECHAT_XCX_APP_ID']) && $_ENV['SNS_WECHAT_XCX_APP_ID']) {
+        if (!$account && (bool) isset($_ENV['SNS_WECHAT_XCX_APP_ID'])&& $_ENV['SNS_WECHAT_XCX_APP_ID']) {
             // 再尝试下找个appid
             $account = $this->accountRepository->findOneBy([
                 'appId' => $_ENV['SNS_WECHAT_XCX_APP_ID'],

@@ -14,7 +14,9 @@ use WechatMiniProgramBundle\Service\Client;
 #[AsCommand(name: 'wechat-mini-program:open-api:query-rid', description: '查询rid信息')]
 class OpenApiQueryRidCommand extends Command
 {
-    public function __construct(
+    
+    public const NAME = 'wechat-mini-program:open-api:query-rid';
+public function __construct(
         private readonly AccountRepository $accountRepository,
         private readonly Client $client,
     ) {

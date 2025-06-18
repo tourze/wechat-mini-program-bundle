@@ -69,12 +69,12 @@ class AccountTest extends TestCase
         $this->assertEquals('192.168.1.1', $this->account->getUpdatedFromIp());
 
         // 测试createTime属性
-        $dateTime = new \DateTime();
+        $dateTime = new \DateTimeImmutable();
         $this->account->setCreateTime($dateTime);
         $this->assertSame($dateTime, $this->account->getCreateTime());
 
         // 测试updateTime属性
-        $updateTime = new \DateTime();
+        $updateTime = new \DateTimeImmutable();
         $this->account->setUpdateTime($updateTime);
         $this->assertSame($updateTime, $this->account->getUpdateTime());
 
@@ -116,8 +116,6 @@ class AccountTest extends TestCase
         $this->setupCompleteAccount();
 
         $array = $this->account->toArray();
-
-        $this->assertIsArray($array);
         $this->assertNotEmpty($array);
     }
 
@@ -131,8 +129,6 @@ class AccountTest extends TestCase
         $this->setupCompleteAccount();
 
         $array = $this->account->retrievePlainArray();
-
-        $this->assertIsArray($array);
         $this->assertNotEmpty($array);
     }
 
@@ -146,8 +142,6 @@ class AccountTest extends TestCase
         $this->setupCompleteAccount();
 
         $array = $this->account->retrieveApiArray();
-
-        $this->assertIsArray($array);
         $this->assertNotEmpty($array);
     }
 
@@ -161,8 +155,6 @@ class AccountTest extends TestCase
         $this->setupCompleteAccount();
 
         $array = $this->account->retrieveAdminArray();
-
-        $this->assertIsArray($array);
         $this->assertNotEmpty($array);
     }
 
@@ -172,7 +164,7 @@ class AccountTest extends TestCase
     private function setupCompleteAccount(): void
     {
         // 设置测试数据
-        $now = new \DateTime();
+        $now = new \DateTimeImmutable();
 
         // 模拟getId方法返回有效值
         $reflectionProperty = new \ReflectionProperty(Account::class, 'id');

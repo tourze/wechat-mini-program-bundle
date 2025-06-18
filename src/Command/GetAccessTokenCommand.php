@@ -17,7 +17,9 @@ use WechatMiniProgramBundle\Service\Client;
 #[AsCommand(name: 'wechat-mini-program:GetAccessToken', description: '读取AccessToken')]
 class GetAccessTokenCommand extends Command
 {
-    public function __construct(
+    
+    public const NAME = 'wechat-mini-program:GetAccessToken';
+public function __construct(
         private readonly AccountRepository $accountRepository,
         private readonly Client $client,
     ) {

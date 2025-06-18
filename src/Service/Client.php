@@ -59,7 +59,7 @@ class Client extends ApiClient
     public function getAccountAccessToken(Account $account, bool $refresh = false): array
     {
         $cacheKey = $this->getAccessTokenCacheKey($account);
-        if ($refresh) {
+        if ((bool) $refresh) {
             $this->cache->delete($cacheKey);
         }
 
@@ -80,7 +80,7 @@ class Client extends ApiClient
     public function getBaseUrl(): string
     {
         foreach ($this->getDomains() as $domain) {
-            if (isset($_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"]) && $_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"]) {
+            if ((bool) isset($_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"]) && $_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"]) {
                 continue;
             }
 
@@ -120,9 +120,9 @@ class Client extends ApiClient
             $path = "{$this->getBaseUrl()}/{$path}";
         }
 
-        if ($request instanceof WithAccountRequest) {
+        if ((bool) $request instanceof WithAccountRequest) {
             $accessToken = $this->getRequestAccessToken($request);
-            if (str_contains($path, '?')) {
+            if ((bool) str_contains($path, '?')) {
                 $path = "{$path}&access_token={$accessToken}";
             } else {
                 $path = "{$path}?access_token={$accessToken}";
@@ -140,7 +140,7 @@ class Client extends ApiClient
     protected function getRequestOptions(RequestInterface $request): ?array
     {
         $options = $request->getRequestOptions();
-        if (isset($options['json'])) {
+        if ((bool) isset($options['json'])) {
             $options['body'] = json_encode($options['json']);
             unset($options['json']);
         }
@@ -150,7 +150,7 @@ class Client extends ApiClient
 
     protected function formatResponse(RequestInterface $request, ResponseInterface $response): mixed
     {
-        if ($request instanceof RawResponseAPI) {
+        if ((bool) $request instanceof RawResponseAPI) {
             return $response->getContent();
         }
 

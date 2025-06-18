@@ -55,7 +55,6 @@ class WithAccountRequestTest extends TestCase
         $logData = $this->request->generateLogData();
 
         // 验证日志数据
-        $this->assertIsArray($logData);
         $this->assertArrayHasKey('account', $logData);
         $this->assertEquals('测试账号(test_app_id)', $logData['account']);
     }
@@ -77,7 +76,6 @@ class WithAccountRequestTest extends TestCase
         $logData = $requestMock->generateLogData();
 
         // 验证结果
-        $this->assertIsArray($logData);
         $this->assertEmpty($logData);
     }
 

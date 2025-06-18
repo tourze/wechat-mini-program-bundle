@@ -104,7 +104,6 @@ class ClientTest extends TestCase
         $result = $clientMock->getAccountAccessToken($account);
 
         // 验证结果
-        $this->assertIsArray($result);
         $this->assertEquals('test_token', $result['access_token']);
         $this->assertEquals(7200, $result['expires_in']);
         $this->assertArrayHasKey('start_time', $result);
@@ -165,7 +164,6 @@ class ClientTest extends TestCase
         $result = $clientMock->getAccountAccessToken($account, true);
 
         // 验证结果
-        $this->assertIsArray($result);
         $this->assertEquals('new_test_token', $result['access_token']);
         $this->assertEquals(7200, $result['expires_in']);
         $this->assertArrayHasKey('start_time', $result);

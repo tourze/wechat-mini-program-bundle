@@ -20,7 +20,9 @@ use WechatMiniProgramBundle\Service\Client;
 #[AsCommand(name: 'wechat:official-account:ResetApiFrequencyCommand', description: 'openApi管理-使用AppSecret重置API调用次数')]
 class ResetApiFrequencyCommand extends Command
 {
-    public function __construct(
+    
+    public const NAME = 'wechat:official-account:ResetApiFrequencyCommand';
+public function __construct(
         private readonly AccountRepository $accountRepository,
         private readonly Client $client,
         private readonly LoggerInterface $logger,
