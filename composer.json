@@ -31,7 +31,6 @@
     "symfony/yaml": "^6.4 || ^7.1",
     "tourze/arrayable": "0.0.*",
     "tourze/backtrace-helper": "0.1.*",
-    "tourze/doctrine-indexed-bundle": "0.0.*",
     "tourze/doctrine-ip-bundle": "0.0.*",
     "tourze/doctrine-resolve-target-entity-bundle": "0.0.*",
     "tourze/doctrine-timestamp-bundle": "0.0.*",
