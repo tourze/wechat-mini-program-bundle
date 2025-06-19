@@ -2,7 +2,7 @@
 
 namespace WechatMiniProgramBundle\Tests\Service;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -87,7 +87,7 @@ class ClientTest extends TestCase
         $expectedToken = [
             'access_token' => 'test_token',
             'expires_in' => 7200,
-            'start_time' => Carbon::now()->getTimestamp(),
+            'start_time' => CarbonImmutable::now()->getTimestamp(),
         ];
 
         $clientMock->expects($this->once())
@@ -147,7 +147,7 @@ class ClientTest extends TestCase
         $expectedToken = [
             'access_token' => 'new_test_token',
             'expires_in' => 7200,
-            'start_time' => Carbon::now()->getTimestamp(),
+            'start_time' => CarbonImmutable::now()->getTimestamp(),
         ];
 
         $clientMock->expects($this->once())

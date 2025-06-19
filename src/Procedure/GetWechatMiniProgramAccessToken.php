@@ -42,7 +42,7 @@ class GetWechatMiniProgramAccessToken extends BaseProcedure implements LogFormat
             ]);
         }
 
-        if (!$account) {
+        if ($account === null) {
             throw new ApiException('找不到小程序');
         }
 

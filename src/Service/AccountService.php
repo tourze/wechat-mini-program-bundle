@@ -34,7 +34,7 @@ class AccountService
         }
 
         // 如果只有一个，那就直接通过
-        if (!$account && 1 === $this->accountRepository->count([])) {
+        if ($account === null && 1 === $this->accountRepository->count([])) {
             $list = $this->accountRepository->findBy(['valid' => true]);
             if (!empty($list)) {
                 $account = $list[0];
@@ -42,12 +42,12 @@ class AccountService
         }
 
         // 在特殊情况下，我们会找不到直接关联的小程序，那么走回去之前的兼容逻辑
-        if (!$account && (bool) isset($_ENV['SNS_WECHAT_XCX_APP_ID'])&& $_ENV['SNS_WECHAT_XCX_APP_ID']) {
+        if ($account === null && isset($_ENV['SNS_WECHAT_XCX_APP_ID']) && !empty($_ENV['SNS_WECHAT_XCX_APP_ID'])) {
             // 再尝试下找个appid
             $account = $this->accountRepository->findOneBy([
                 'appId' => $_ENV['SNS_WECHAT_XCX_APP_ID'],
             ]);
-            if (!$account) {
+            if ($account === null) {
                 $account = new Account();
                 $account->setName('旧小程序兼容');
                 $account->setAppId($_ENV['SNS_WECHAT_XCX_APP_ID']);

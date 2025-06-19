@@ -21,15 +21,13 @@ class LaunchOptionHelper
     {
         $path = '';
         $query = [];
-        if ((bool) in_array(LaunchOptionsAwareEvent::class, class_uses($object))) {
-            /** @var LaunchOptionsAwareEvent $object */
+        if (in_array(LaunchOptionsAwareEvent::class, class_uses($object) ?: [])) {
             $path = ArrayHelper::getValue($object->getEnterOptions(), 'path', '');
             $query = ArrayHelper::getValue($object->getEnterOptions(), 'query', []);
             $query = array_merge($query, $object->getLaunchOptions()['query']);
         }
 
-        if ((bool) in_array(LaunchOptionsAwareEntity::class, class_uses($object))) {
-            /** @var LaunchOptionsAwareEntity $object */
+        if (in_array(LaunchOptionsAwareEntity::class, class_uses($object) ?: [])) {
             $path = ArrayHelper::getValue($object->getEnterOptions(), 'path', '');
             $query = ArrayHelper::getValue($object->getEnterOptions(), 'query', []);
             $query = array_merge($query, $object->getLaunchOptions()['query']);

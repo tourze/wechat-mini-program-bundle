@@ -14,11 +14,11 @@ use WechatMiniProgramBundle\Service\Client;
  * 这里之所以使用定时任务来获取，是为了提前调用远程接口，减少前端的等待时间
  */
 #[AsCronTask('*/20 * * * *')]
-#[AsCommand(name: 'wechat-mini-program:GetAccessToken', description: '读取AccessToken')]
+#[AsCommand(name: self::NAME, description: '读取AccessToken')]
 class GetAccessTokenCommand extends Command
 {
     
-    public const NAME = 'wechat-mini-program:GetAccessToken';
+    public const NAME = 'wechat-mini-program:get-access-token';
 public function __construct(
         private readonly AccountRepository $accountRepository,
         private readonly Client $client,

@@ -2,7 +2,7 @@
 
 namespace WechatMiniProgramBundle\Service;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use HttpClientBundle\Client\ApiClient;
 use HttpClientBundle\Exception\HttpClientException;
 use HttpClientBundle\Request\RequestInterface;
@@ -69,7 +69,7 @@ class Client extends ApiClient
             $request->setSecret($account->getAppSecret());
             $request->setForceRefresh($refresh);
             $result = $this->request($request);
-            $result['start_time'] = Carbon::now()->getTimestamp();
+            $result['start_time'] = CarbonImmutable::now()->getTimestamp();
 
             $item->expiresAfter($result['expires_in'] - 10);
 
@@ -80,7 +80,7 @@ class Client extends ApiClient
     public function getBaseUrl(): string
     {
         foreach ($this->getDomains() as $domain) {
-            if ((bool) isset($_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"]) && $_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"]) {
+            if (isset($_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"]) && !empty($_ENV["WECHAT_MIN_PROGRAM_DISABLE_BASE_URL_{$domain}"])) {
                 continue;
             }
 
@@ -105,7 +105,7 @@ class Client extends ApiClient
             $token = $this->getAccountAccessToken($request->getAccount(), true);
         }
 
-        if (!$token) {
+        if (empty($token)) {
             return '';
         }
 
@@ -120,9 +120,9 @@ class Client extends ApiClient
             $path = "{$this->getBaseUrl()}/{$path}";
         }
 
-        if ((bool) $request instanceof WithAccountRequest) {
+        if ($request instanceof WithAccountRequest) {
             $accessToken = $this->getRequestAccessToken($request);
-            if ((bool) str_contains($path, '?')) {
+            if (str_contains($path, '?')) {
                 $path = "{$path}&access_token={$accessToken}";
             } else {
                 $path = "{$path}?access_token={$accessToken}";
@@ -140,7 +140,7 @@ class Client extends ApiClient
     protected function getRequestOptions(RequestInterface $request): ?array
     {
         $options = $request->getRequestOptions();
-        if ((bool) isset($options['json'])) {
+        if (isset($options['json'])) {
             $options['body'] = json_encode($options['json']);
             unset($options['json']);
         }
@@ -150,7 +150,7 @@ class Client extends ApiClient
 
     protected function formatResponse(RequestInterface $request, ResponseInterface $response): mixed
     {
-        if ((bool) $request instanceof RawResponseAPI) {
+        if ($request instanceof RawResponseAPI) {
             return $response->getContent();
         }
 

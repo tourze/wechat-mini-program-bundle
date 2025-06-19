@@ -17,11 +17,11 @@ use WechatMiniProgramBundle\Service\Client;
  *
  * @see https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/openApi-mgnt/clearQuotaByAppSecret.html
  */
-#[AsCommand(name: 'wechat:official-account:ResetApiFrequencyCommand', description: 'openApi管理-使用AppSecret重置API调用次数')]
+#[AsCommand(name: self::NAME, description: 'openApi管理-使用AppSecret重置API调用次数')]
 class ResetApiFrequencyCommand extends Command
 {
     
-    public const NAME = 'wechat:official-account:ResetApiFrequencyCommand';
+    public const NAME = 'wechat:official-account:reset-api-frequency';
 public function __construct(
         private readonly AccountRepository $accountRepository,
         private readonly Client $client,

@@ -11,7 +11,7 @@ use WechatMiniProgramBundle\Repository\AccountRepository;
 use WechatMiniProgramBundle\Request\GetRidRequest;
 use WechatMiniProgramBundle\Service\Client;
 
-#[AsCommand(name: 'wechat-mini-program:open-api:query-rid', description: '查询rid信息')]
+#[AsCommand(name: self::NAME, description: '查询rid信息')]
 class OpenApiQueryRidCommand extends Command
 {
     
@@ -33,7 +33,7 @@ public function __construct(
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $account = $this->accountRepository->find($input->getArgument('account'));
-        if (!$account) {
+        if ($account === null) {
             throw new \Exception('找不到账号信息');
         }
 

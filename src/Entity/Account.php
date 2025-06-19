@@ -73,7 +73,7 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
 
     public function __toString(): string
     {
-        if (!$this->getId()) {
+        if ($this->getId() === null || $this->getName() === null) {
             return '';
         }
 
@@ -99,7 +99,7 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
 
     public function getAppId(): string
     {
-        return $this->appId;
+        return $this->appId ?? '';
     }
 
     public function setAppId(string $appId): self
