@@ -37,25 +37,6 @@ class ClientTest extends TestCase
         $this->assertEquals('微信小程序请求客户端', $this->client->getLabel());
     }
 
-    /**
-     * 由于Client类的request方法依赖于ApiClient的实现，这里我们跳过此测试
-     */
-    public function testRequest_withValidRequest(): void
-    {
-        // 跳过此测试，因为需要更复杂的模拟
-        $this->markTestSkipped('需要更复杂的模拟来测试请求方法');
-    }
-
-    /**
-     * 由于HttpClientException构造函数需要ResponseInterface，且Client实现比较复杂，
-     * 这里我们跳过此测试
-     */
-    public function testRequest_withInvalidAccessToken(): void
-    {
-        // 跳过此测试，因为需要更复杂的集成测试来测试无效token情况
-        $this->markTestSkipped('需要更复杂的集成测试来测试无效token情况');
-    }
-
     public function testGetAccountAccessToken_withValidAccount(): void
     {
         // 创建账号

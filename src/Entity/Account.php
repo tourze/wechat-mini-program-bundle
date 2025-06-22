@@ -13,8 +13,7 @@ use Tourze\DoctrineIpBundle\Attribute\CreateIpColumn;
 use Tourze\DoctrineIpBundle\Attribute\UpdateIpColumn;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\DoctrineTrackBundle\Attribute\TrackColumn;
-use Tourze\DoctrineUserBundle\Attribute\CreatedByColumn;
-use Tourze\DoctrineUserBundle\Attribute\UpdatedByColumn;
+use Tourze\DoctrineUserBundle\Traits\BlameableAware;
 use Tourze\WechatMiniProgramAppIDContracts\MiniProgramInterface;
 use WechatMiniProgramBundle\Repository\AccountRepository;
 
@@ -23,6 +22,7 @@ use WechatMiniProgramBundle\Repository\AccountRepository;
 class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayInterface, AdminArrayInterface, MiniProgramInterface
 {
     use TimestampableAware;
+    use BlameableAware;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
@@ -58,12 +58,6 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
 
     #[TrackColumn]
     private ?bool $valid = false;
-
-    #[CreatedByColumn]
-    private ?string $createdBy = null;
-
-    #[UpdatedByColumn]
-    private ?string $updatedBy = null;
 
     #[CreateIpColumn]
     private ?string $createdFromIp = null;
@@ -191,30 +185,6 @@ class Account implements \Stringable, Arrayable, PlainArrayInterface, ApiArrayIn
         $this->director = $director;
 
         return $this;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setUpdatedBy(?string $updatedBy): self
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    public function getUpdatedBy(): ?string
-    {
-        return $this->updatedBy;
     }
 
     public function getCreatedFromIp(): ?string

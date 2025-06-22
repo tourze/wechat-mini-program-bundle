@@ -19,7 +19,7 @@ class WithAccountRequestTest extends TestCase
                 return '/test/path';
             }
 
-            public function getRequestOptions(): ?array
+            public function getRequestOptions(): array
             {
                 return ['test' => 'options'];
             }
