@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use WechatMiniProgramBundle\Exception\AccountNotFoundException;
 use WechatMiniProgramBundle\Repository\AccountRepository;
 use WechatMiniProgramBundle\Request\GetRidRequest;
 use WechatMiniProgramBundle\Service\Client;
@@ -34,7 +35,7 @@ public function __construct(
     {
         $account = $this->accountRepository->find($input->getArgument('account'));
         if ($account === null) {
-            throw new \Exception('找不到账号信息');
+            throw new AccountNotFoundException('找不到账号信息');
         }
 
         $request = new GetRidRequest();

@@ -25,7 +25,7 @@ abstract class WithAccountRequest extends ApiRequest implements AppendAccessToke
     public function generateLogData(): array
     {
         $result = parent::generateLogData();
-        if ((bool) $result) {
+        if ((bool) $result && isset($this->account)) {
             $result['account'] = strval($this->account);
         }
 

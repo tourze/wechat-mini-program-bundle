@@ -12,6 +12,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Tourze\BacktraceHelper\Backtrace;
 use WechatMiniProgramBundle\Entity\Account;
+use WechatMiniProgramBundle\Exception\WechatApiException;
 use WechatMiniProgramBundle\Request\RawResponseAPI;
 use WechatMiniProgramBundle\Request\StableTokenRequest;
 use WechatMiniProgramBundle\Request\WithAccountRequest;
@@ -86,7 +87,7 @@ class Client extends ApiClient
 
             return "https://{$domain}";
         }
-        throw new \RuntimeException('找不到能使用的微信小程序地址');
+        throw new WechatApiException('找不到能使用的微信小程序地址');
     }
 
     /**

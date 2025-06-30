@@ -13,7 +13,7 @@ use WechatMiniProgramBundle\Service\Client;
 /**
  * 这里之所以使用定时任务来获取，是为了提前调用远程接口，减少前端的等待时间
  */
-#[AsCronTask('*/20 * * * *')]
+#[AsCronTask(expression: '*/20 * * * *')]
 #[AsCommand(name: self::NAME, description: '读取AccessToken')]
 class GetAccessTokenCommand extends Command
 {

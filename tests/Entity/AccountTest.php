@@ -86,11 +86,13 @@ class AccountTest extends TestCase
 
     public function testToString_withValidAccount(): void
     {
-        // 模拟getId方法返回有效值
-        $account = $this->getMockBuilder(Account::class)
-            ->onlyMethods(['getId'])
-            ->getMock();
-        $account->method('getId')->willReturn(1);
+        // 创建实际的Account对象并使用反射设置ID
+        $account = new Account();
+        
+        // 使用反射设置私有属性id
+        $reflectionProperty = new \ReflectionProperty(Account::class, 'id');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($account, 1);
 
         $account->setName('测试小程序');
         $account->setAppId('wx123456789');

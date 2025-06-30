@@ -42,11 +42,16 @@ class WithAccountRequestTest extends TestCase
 
     public function testGenerateLogData_withAccount(): void
     {
-        // 创建Account对象并模拟__toString方法
-        $account = $this->getMockBuilder(Account::class)
-            ->onlyMethods(['__toString'])
-            ->getMock();
-        $account->method('__toString')->willReturn('测试账号(test_app_id)');
+        // 创建真实的Account对象
+        $account = new Account();
+        
+        // 使用反射设置私有属性id来支持__toString
+        $reflectionProperty = new \ReflectionProperty(Account::class, 'id');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($account, 1);
+        
+        $account->setName('测试账号');
+        $account->setAppId('test_app_id');
 
         // 设置Account到请求
         $this->request->setAccount($account);
@@ -61,22 +66,11 @@ class WithAccountRequestTest extends TestCase
 
     public function testGenerateLogData_withoutAccount(): void
     {
-        // 创建一个可以访问protected方法的子类
-        $requestMock = $this->getMockBuilder(WithAccountRequest::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['generateLogData'])
-            ->getMockForAbstractClass();
+        // 测试没有设置account时的日志数据生成
+        $logData = $this->request->generateLogData();
 
-        // 设置期望（模拟父类返回空数组）
-        $requestMock->expects($this->once())
-            ->method('generateLogData')
-            ->willReturn([]);
-
-        // 调用方法
-        $logData = $requestMock->generateLogData();
-
-        // 验证结果
-        $this->assertEmpty($logData);
+        // 验证结果 - 没有设置account时不应该包含account信息
+        $this->assertArrayNotHasKey('account', $logData);
     }
 
     public function testImplementsAppendAccessToken(): void

@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use WechatMiniProgramBundle\Model\PathLink;
 
-#[AsAlias(PathParserInterface::class)]
+#[AsAlias(id: PathParserInterface::class)]
 class PathParser implements PathParserInterface
 {
     public function __construct(
