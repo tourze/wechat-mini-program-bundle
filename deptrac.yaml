@@ -1,0 +1,114 @@
+deptrac:
+  paths:
+    - ./src
+  exclude_files:
+    - '#.*tests.*#'
+  layers:
+    - name: Controller
+      collectors:
+        - type: directory
+          value: src/Controller/.*
+    - name: Command
+      collectors:
+        - type: directory
+          value: src/Command/.*
+    - name: Procedure
+      collectors:
+        - type: directory
+          value: src/Procedure/.*
+    - name: Service
+      collectors:
+        - type: directory
+          value: src/Service/.*
+    - name: Repository
+      collectors:
+        - type: directory
+          value: src/Repository/.*
+    - name: Entity
+      collectors:
+        - type: directory
+          value: src/Entity/.*
+    - name: Request
+      collectors:
+        - type: directory
+          value: src/Request/.*
+    - name: Model
+      collectors:
+        - type: directory
+          value: src/Model/.*
+    - name: Event
+      collectors:
+        - type: directory
+          value: src/Event/.*
+    - name: Exception
+      collectors:
+        - type: directory
+          value: src/Exception/.*
+    - name: Enum
+      collectors:
+        - type: directory
+          value: src/Enum/.*
+    - name: DataFixtures
+      collectors:
+        - type: directory
+          value: src/DataFixtures/.*
+    - name: DependencyInjection
+      collectors:
+        - type: directory
+          value: src/DependencyInjection/.*
+  ruleset:
+    Controller:
+      - Service
+      - Entity
+      - Event
+      - Exception
+    Command:
+      - Service
+      - Repository
+      - Entity
+      - Request
+      - Exception
+    Procedure:
+      - Service
+      - Repository
+      - Entity
+      - Request
+      - Model
+      - Exception
+    Service:
+      - Repository
+      - Entity
+      - Request
+      - Model
+      - Event
+      - Exception
+      - Enum
+      - Controller # AttributeControllerLoader需要引用Controller来加载路由
+    Repository:
+      - Entity
+      - Exception
+    Entity:
+      - Repository # Doctrine Entity注解需要指定repositoryClass
+      - Enum
+    Request:
+      - Entity
+      - Enum
+      - Exception
+    Model:
+      - Entity
+      - Enum
+    Event:
+      - Entity
+      - Enum
+    Exception: ~
+    Enum: ~
+    DataFixtures:
+      - Entity
+      - Repository
+    DependencyInjection:
+      - Service
+      - Repository
+      - Entity
+      - Controller
+      - Command
+      - Procedure

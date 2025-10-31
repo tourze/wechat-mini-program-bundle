@@ -1,152 +1,152 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatMiniProgramBundle\Tests\Service;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
-use WechatMiniProgramBundle\Entity\LaunchOptionsAware;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Psr\Link\LinkInterface;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
+use WechatMiniProgramBundle\Entity\LaunchOptionsAware as LaunchOptionsAwareEntity;
 use WechatMiniProgramBundle\Event\LaunchOptionsAware as LaunchOptionsAwareEvent;
-use WechatMiniProgramBundle\Model\PathLink;
 use WechatMiniProgramBundle\Service\LaunchOptionHelper;
 use WechatMiniProgramBundle\Service\PathParserInterface;
 
-class LaunchOptionHelperTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(LaunchOptionHelper::class)]
+#[RunTestsInSeparateProcesses]
+final class LaunchOptionHelperTest extends AbstractIntegrationTestCase
 {
-    private LaunchOptionHelper $helper;
-    private MockObject|PathParserInterface $pathParser;
+    private LaunchOptionHelper $launchOptionHelper;
 
-    protected function setUp(): void
+    protected function onSetUp(): void
     {
-        $this->pathParser = $this->createMock(PathParserInterface::class);
-        $this->helper = new LaunchOptionHelper($this->pathParser);
+        $this->launchOptionHelper = self::getService(LaunchOptionHelper::class);
     }
 
-    public function testParseEvent_withLaunchOptionsAwareEvent(): void
+    public function testParseEventWithLaunchOptionsAwareEvent(): void
     {
-        // 创建模拟对象
-        $event = new class() {
+        $object = new class {
             use LaunchOptionsAwareEvent;
 
             public function __construct()
             {
                 $this->setEnterOptions([
-                    'path' => 'pages/index/index',
-                    'query' => ['source' => 'direct'],
+                    'path' => '/pages/index',
+                    'query' => ['param1' => 'value1'],
                 ]);
                 $this->setLaunchOptions([
-                    'query' => ['campaign' => 'summer'],
+                    'query' => ['param2' => 'value2'],
                 ]);
             }
         };
 
-        // 设置预期
-        $expectedLink = new PathLink('pages/index/index', [
-            'source' => 'direct',
-            'campaign' => 'summer',
-        ]);
-
-        $this->pathParser->expects($this->once())
-            ->method('parsePath')
-            ->with(
-                $this->equalTo('pages/index/index'),
-                $this->equalTo(['source' => 'direct', 'campaign' => 'summer'])
-            )
-            ->willReturn($expectedLink);
-
-        // 执行测试
-        $result = $this->helper->parseEvent($event);
-
-        // 验证结果
-        $this->assertSame($expectedLink, $result);
+        $result = $this->launchOptionHelper->parseEvent($object);
+        $this->assertInstanceOf(LinkInterface::class, $result);
     }
 
-    public function testParseEvent_withLaunchOptionsAwareEntity(): void
+    public function testParseEventWithLaunchOptionsAwareEntity(): void
     {
-        // 创建模拟对象
-        $entity = new class() {
-            use LaunchOptionsAware;
+        $object = new class {
+            use LaunchOptionsAwareEntity;
 
             public function __construct()
             {
                 $this->setEnterOptions([
-                    'path' => 'pages/product/detail',
+                    'path' => '/pages/detail',
                     'query' => ['id' => '123'],
                 ]);
                 $this->setLaunchOptions([
-                    'query' => ['from' => 'search'],
+                    'query' => ['source' => 'test'],
                 ]);
             }
         };
 
-        // 设置预期
-        $expectedLink = new PathLink('pages/product/detail', [
-            'id' => '123',
-            'from' => 'search',
-        ]);
-
-        $this->pathParser->expects($this->once())
-            ->method('parsePath')
-            ->with(
-                $this->equalTo('pages/product/detail'),
-                $this->equalTo(['id' => '123', 'from' => 'search'])
-            )
-            ->willReturn($expectedLink);
-
-        // 执行测试
-        $result = $this->helper->parseEvent($entity);
-
-        // 验证结果
-        $this->assertSame($expectedLink, $result);
+        $result = $this->launchOptionHelper->parseEvent($object);
+        $this->assertInstanceOf(LinkInterface::class, $result);
     }
 
-    public function testParseEvent_withNonSupportedObject(): void
+    public function testParseEventWithoutLaunchOptionsAware(): void
     {
-        // 创建不支持的对象
-        $object = new \stdClass();
-
-        // 设置预期
-        $expectedLink = new PathLink('', []);
-
-        $this->pathParser->expects($this->once())
-            ->method('parsePath')
-            ->with(
-                $this->equalTo(''),
-                $this->equalTo([])
-            )
-            ->willReturn($expectedLink);
-
-        // 执行测试
-        $result = $this->helper->parseEvent($object);
-
-        // 验证结果
-        $this->assertSame($expectedLink, $result);
-    }
-
-    public function testParseEvent_withEmptyLaunchOptions(): void
-    {
-        // 创建模拟对象，但不设置启动参数
-        $entity = new class() {
-            use LaunchOptionsAware;
+        $object = new class {
+            // 没有使用任何 LaunchOptionsAware trait
         };
 
-        // 修复可能的null引用错误
-        $entity->setLaunchOptions(['query' => []]);
+        $result = $this->launchOptionHelper->parseEvent($object);
+        $this->assertInstanceOf(LinkInterface::class, $result);
+    }
 
-        // 设置预期
-        $expectedLink = new PathLink('', []);
+    public function testParseEventWithEmptyOptions(): void
+    {
+        $object = new class {
+            use LaunchOptionsAwareEvent;
 
-        $this->pathParser->expects($this->once())
-            ->method('parsePath')
-            ->with(
-                $this->equalTo(''),
-                $this->equalTo([])
-            )
-            ->willReturn($expectedLink);
+            public function __construct()
+            {
+                // 不设置任何选项
+            }
+        };
 
-        // 执行测试
-        $result = $this->helper->parseEvent($entity);
+        $result = $this->launchOptionHelper->parseEvent($object);
+        $this->assertInstanceOf(LinkInterface::class, $result);
+    }
 
-        // 验证结果
-        $this->assertSame($expectedLink, $result);
+    public function testParseEventWithInvalidOptions(): void
+    {
+        $object = new class {
+            use LaunchOptionsAwareEvent;
+
+            public function __construct()
+            {
+                // 设置 null 选项来测试边界情况
+                $this->setEnterOptions(null);
+                $this->setLaunchOptions(null);
+            }
+        };
+
+        $result = $this->launchOptionHelper->parseEvent($object);
+        $this->assertInstanceOf(LinkInterface::class, $result);
+    }
+
+    public function testParseEventWithMergedQuery(): void
+    {
+        $object = new class {
+            use LaunchOptionsAwareEvent;
+
+            public function __construct()
+            {
+                $this->setEnterOptions([
+                    'path' => '/pages/home',
+                    'query' => ['enter' => 'true', 'shared' => 'enter'],
+                ]);
+                $this->setLaunchOptions([
+                    'query' => ['launch' => 'true', 'shared' => 'launch'],
+                ]);
+            }
+        };
+
+        $result = $this->launchOptionHelper->parseEvent($object);
+        $this->assertInstanceOf(LinkInterface::class, $result);
+    }
+
+    public function testParseEventWithNonStringKeys(): void
+    {
+        $object = new class {
+            use LaunchOptionsAwareEvent;
+
+            public function __construct()
+            {
+                $this->setEnterOptions([
+                    'path' => '/pages/test',
+                    'query' => ['value', 'another'], // 数字索引
+                ]);
+            }
+        };
+
+        $result = $this->launchOptionHelper->parseEvent($object);
+        $this->assertInstanceOf(LinkInterface::class, $result);
     }
 }

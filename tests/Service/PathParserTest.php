@@ -2,42 +2,32 @@
 
 namespace WechatMiniProgramBundle\Tests\Service;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
-use Psr\Link\LinkInterface;
-use Psr\Log\LoggerInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 use WechatMiniProgramBundle\Model\PathLink;
 use WechatMiniProgramBundle\Service\PathParser;
 
-class PathParserTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(PathParser::class)]
+#[RunTestsInSeparateProcesses]
+final class PathParserTest extends AbstractIntegrationTestCase
 {
     private PathParser $pathParser;
-    private MockObject|LoggerInterface $logger;
 
-    protected function setUp(): void
+    protected function onSetUp(): void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->pathParser = new PathParser($this->logger);
+        $this->pathParser = self::getService(PathParser::class);
     }
 
-    public function testParsePath_withValidPath(): void
+    public function testParsePathWithValidPath(): void
     {
-        // 设置预期的日志记录
-        $this->logger->expects($this->once())
-            ->method('debug')
-            ->with(
-                $this->equalTo('解析Header参数获取小程序访问信息'),
-                $this->callback(function ($context) {
-                    return $context['path'] === 'pages/index/index' &&
-                        $context['query'] === ['id' => '123'];
-                })
-            );
-
         // 执行测试
         $result = $this->pathParser->parsePath('pages/index/index', ['id' => '123']);
 
         // 验证结果
-        $this->assertInstanceOf(LinkInterface::class, $result);
         $this->assertInstanceOf(PathLink::class, $result);
         $this->assertEquals('pages/index/index', $result->getHref());
         $this->assertEquals(['id' => '123'], $result->getAttributes());
@@ -45,25 +35,27 @@ class PathParserTest extends TestCase
         $this->assertEmpty($result->getRels());
     }
 
-    public function testParsePath_withTrailingSlash(): void
+    public function testParsePathWithTrailingSlash(): void
     {
         // 执行测试
-        $result = $this->pathParser->parsePath('/pages/index/index/', []);
+        $path = DIRECTORY_SEPARATOR . 'pages' . DIRECTORY_SEPARATOR . 'index' . DIRECTORY_SEPARATOR . 'index' . DIRECTORY_SEPARATOR;
+        $result = $this->pathParser->parsePath($path, []);
 
         // 验证结果
         $this->assertEquals('pages/index/index', $result->getHref());
     }
 
-    public function testParsePath_withLeadingSlash(): void
+    public function testParsePathWithLeadingSlash(): void
     {
         // 执行测试
-        $result = $this->pathParser->parsePath('/pages/index/index', []);
+        $path = DIRECTORY_SEPARATOR . 'pages' . DIRECTORY_SEPARATOR . 'index' . DIRECTORY_SEPARATOR . 'index';
+        $result = $this->pathParser->parsePath($path, []);
 
         // 验证结果
         $this->assertEquals('pages/index/index', $result->getHref());
     }
 
-    public function testParsePath_withEmptyPath(): void
+    public function testParsePathWithEmptyPath(): void
     {
         // 执行测试
         $result = $this->pathParser->parsePath('', []);
@@ -72,7 +64,7 @@ class PathParserTest extends TestCase
         $this->assertEquals('', $result->getHref());
     }
 
-    public function testParsePath_withComplexQuery(): void
+    public function testParsePathWithComplexQuery(): void
     {
         $query = [
             'id' => '123',

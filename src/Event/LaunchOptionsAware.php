@@ -1,33 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatMiniProgramBundle\Event;
 
 /**
- * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
- * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getEnterOptionsSync.html
+ * 事件的 LaunchOptionsAware trait
+ *
+ * 提供 launchOptions 和 enterOptions 属性用于存储
+ * 微信小程序启动和进入选项在事件类中。
+ *
+ * @phpstan-ignore trait.unused (跨包使用，PHPStan无法检测)
  */
 trait LaunchOptionsAware
 {
-    private array $launchOptions = [];
+    /**
+     * @var array<string, mixed>|null
+     */
+    private ?array $launchOptions = [];
 
-    private array $enterOptions = [];
+    /**
+     * @var array<string, mixed>|null
+     */
+    private ?array $enterOptions = [];
 
-    public function getLaunchOptions(): array
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getLaunchOptions(): ?array
     {
         return $this->launchOptions;
     }
 
-    public function setLaunchOptions(array $launchOptions): void
+    /**
+     * @param array<string, mixed>|null $launchOptions
+     */
+    public function setLaunchOptions(?array $launchOptions): void
     {
         $this->launchOptions = $launchOptions;
     }
 
-    public function getEnterOptions(): array
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getEnterOptions(): ?array
     {
         return $this->enterOptions;
     }
 
-    public function setEnterOptions(array $enterOptions): void
+    /**
+     * @param array<string, mixed>|null $enterOptions
+     */
+    public function setEnterOptions(?array $enterOptions): void
     {
         $this->enterOptions = $enterOptions;
     }

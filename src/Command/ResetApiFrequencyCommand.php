@@ -2,6 +2,7 @@
 
 namespace WechatMiniProgramBundle\Command;
 
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,11 +19,12 @@ use WechatMiniProgramBundle\Service\Client;
  * @see https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/openApi-mgnt/clearQuotaByAppSecret.html
  */
 #[AsCommand(name: self::NAME, description: 'openApi管理-使用AppSecret重置API调用次数')]
+#[WithMonologChannel(channel: 'wechat_mini_program')]
 class ResetApiFrequencyCommand extends Command
 {
-    
-    public const NAME = 'wechat:official-account:reset-api-frequency';
-public function __construct(
+    public const NAME = 'wechat-mini-program:reset-api-frequency';
+
+    public function __construct(
         private readonly AccountRepository $accountRepository,
         private readonly Client $client,
         private readonly LoggerInterface $logger,
@@ -40,11 +42,17 @@ public function __construct(
     {
         $accountId = $input->getArgument('account_id');
         $currentAccount = $this->accountRepository->find($accountId);
+        if (null === $currentAccount) {
+            $this->logger->error('找不到指定的小程序账号', ['account_id' => $accountId]);
+
+            return Command::FAILURE;
+        }
+
         $request = new ResetApiFrequencyRequest();
         $request->setAppId($currentAccount->getAppId());
         $request->setAppSecret($currentAccount->getAppSecret());
         $response = $this->client->request($request);
-        if (!isset($response['errcode'])) {
+        if (!is_array($response) || !isset($response['errcode'])) {
             $this->logger->error('AppSecret重置API调用次数错误', [
                 'account' => $currentAccount,
                 'response' => $response,

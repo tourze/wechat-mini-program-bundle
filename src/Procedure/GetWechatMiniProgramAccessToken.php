@@ -32,9 +32,12 @@ class GetWechatMiniProgramAccessToken extends BaseProcedure implements LogFormat
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function execute(): array
     {
-        if (empty($this->appId)) {
+        if ('' === $this->appId) {
             $account = $this->accountRepository->findOneBy([], ['id' => ' DESC']);
         } else {
             $account = $this->accountRepository->findOneBy([
@@ -42,13 +45,16 @@ class GetWechatMiniProgramAccessToken extends BaseProcedure implements LogFormat
             ]);
         }
 
-        if ($account === null) {
+        if (null === $account) {
             throw new ApiException('找不到小程序');
         }
 
         return $this->client->getAccountAccessToken($account, $this->refresh);
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public static function getMockResult(): ?array
     {
         return [

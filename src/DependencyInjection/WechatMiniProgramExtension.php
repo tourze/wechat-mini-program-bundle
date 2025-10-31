@@ -2,29 +2,12 @@
 
 namespace WechatMiniProgramBundle\DependencyInjection;
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Tourze\DoctrineResolveTargetEntityBundle\DependencyInjection\Compiler\ResolveTargetEntityPass;
-use Tourze\WechatMiniProgramAppIDContracts\MiniProgramInterface;
-use WechatMiniProgramBundle\Entity\Account;
+use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 
-class WechatMiniProgramExtension extends Extension
+class WechatMiniProgramExtension extends AutoExtension
 {
-    public function load(array $configs, ContainerBuilder $container): void
+    protected function getConfigDir(): string
     {
-        $loader = new YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
-        );
-        $loader->load('services.yaml');
-
-        $container->addCompilerPass(
-            new ResolveTargetEntityPass(MiniProgramInterface::class, Account::class),
-            PassConfig::TYPE_BEFORE_OPTIMIZATION,
-            1000,
-        );
+        return __DIR__ . '/../Resources/config';
     }
 }

@@ -15,9 +15,9 @@ use WechatMiniProgramBundle\Service\Client;
 #[AsCommand(name: self::NAME, description: '查询rid信息')]
 class OpenApiQueryRidCommand extends Command
 {
-    
     public const NAME = 'wechat-mini-program:open-api:query-rid';
-public function __construct(
+
+    public function __construct(
         private readonly AccountRepository $accountRepository,
         private readonly Client $client,
     ) {
@@ -28,22 +28,28 @@ public function __construct(
     {
         $this
             ->addArgument('account', InputArgument::REQUIRED, '账号ID')
-            ->addArgument('rid', InputArgument::REQUIRED, 'rid');
+            ->addArgument('rid', InputArgument::REQUIRED, 'rid')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $account = $this->accountRepository->find($input->getArgument('account'));
-        if ($account === null) {
+        if (null === $account) {
             throw new AccountNotFoundException('找不到账号信息');
         }
 
         $request = new GetRidRequest();
         $request->setAccount($account);
-        $request->setRid($input->getArgument('rid'));
+        $rid = $input->getArgument('rid');
+        if (!is_string($rid)) {
+            throw new \InvalidArgumentException('rid 参数必须为字符串');
+        }
+        $request->setRid($rid);
         $response = $this->client->request($request);
         // 直接打印结果出来，给开发者看的啦
-        $output->writeln(json_encode($response, JSON_PRETTY_PRINT));
+        $jsonOutput = json_encode($response, JSON_PRETTY_PRINT);
+        $output->writeln(false !== $jsonOutput ? $jsonOutput : '[]');
 
         return Command::SUCCESS;
     }

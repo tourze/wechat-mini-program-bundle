@@ -27,7 +27,10 @@ class StableTokenRequest extends ApiRequest
         return '/cgi-bin/stable_token';
     }
 
-    public function getRequestOptions(): ?array
+    /**
+     * @return array<string, mixed>
+     */
+    public function getRequestOptions(): array
     {
         return [
             'json' => [

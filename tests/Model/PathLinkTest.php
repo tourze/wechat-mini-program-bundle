@@ -2,46 +2,44 @@
 
 namespace WechatMiniProgramBundle\Tests\Model;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Psr\Link\LinkInterface;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use WechatMiniProgramBundle\Model\PathLink;
 
-class PathLinkTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(PathLink::class)]
+final class PathLinkTest extends TestCase
 {
-    public function testGetHref_returnsPath(): void
+    public function testGetHrefReturnsPath(): void
     {
         $pathLink = new PathLink('pages/index/index', []);
 
         $this->assertEquals('pages/index/index', $pathLink->getHref());
     }
 
-    public function testIsTemplated_returnsFalse(): void
+    public function testIsTemplatedReturnsFalse(): void
     {
         $pathLink = new PathLink('pages/index/index', []);
 
         $this->assertFalse($pathLink->isTemplated());
     }
 
-    public function testGetRels_returnsEmptyArray(): void
+    public function testGetRelsReturnsEmptyArray(): void
     {
         $pathLink = new PathLink('pages/index/index', []);
 
         $this->assertEquals([], $pathLink->getRels());
     }
 
-    public function testGetAttributes_returnsQuery(): void
+    public function testGetAttributesReturnsQuery(): void
     {
         $query = ['id' => '123', 'name' => 'test'];
         $pathLink = new PathLink('pages/index/index', $query);
 
         $this->assertEquals($query, $pathLink->getAttributes());
-    }
-
-    public function testImplementsLinkInterface(): void
-    {
-        $pathLink = new PathLink('pages/index/index', []);
-
-        $this->assertInstanceOf(LinkInterface::class, $pathLink);
     }
 
     public function testWithComplexQueryParams(): void
@@ -50,10 +48,10 @@ class PathLinkTest extends TestCase
             'id' => '123',
             'filters' => [
                 'status' => 'active',
-                'category' => 'electronics'
+                'category' => 'electronics',
             ],
             'sort' => 'price',
-            'direction' => 'asc'
+            'direction' => 'asc',
         ];
 
         $pathLink = new PathLink('pages/products/list', $query);

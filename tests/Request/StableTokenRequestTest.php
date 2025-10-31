@@ -2,15 +2,21 @@
 
 namespace WechatMiniProgramBundle\Tests\Request;
 
-use PHPUnit\Framework\TestCase;
+use HttpClientBundle\Tests\Request\RequestTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use WechatMiniProgramBundle\Request\StableTokenRequest;
 
-class StableTokenRequestTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(StableTokenRequest::class)]
+final class StableTokenRequestTest extends RequestTestCase
 {
     private StableTokenRequest $request;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->request = new StableTokenRequest();
     }
 
@@ -19,7 +25,7 @@ class StableTokenRequestTest extends TestCase
         $this->assertEquals('/cgi-bin/stable_token', $this->request->getRequestPath());
     }
 
-    public function testGetRequestOptions_withDefaultValues(): void
+    public function testGetRequestOptionsWithDefaultValues(): void
     {
         // 设置必要的属性
         $this->request->setAppId('test_app_id');
@@ -27,14 +33,18 @@ class StableTokenRequestTest extends TestCase
 
         $options = $this->request->getRequestOptions();
         $this->assertArrayHasKey('json', $options);
+
+        $jsonData = $options['json'];
+        $this->assertIsArray($jsonData);
+
         // 验证默认值
-        $this->assertEquals('client_credential', $options['json']['grant_type']);
-        $this->assertEquals('test_app_id', $options['json']['appid']);
-        $this->assertEquals('test_secret', $options['json']['secret']);
-        $this->assertFalse($options['json']['force_refresh']);
+        $this->assertEquals('client_credential', $jsonData['grant_type']);
+        $this->assertEquals('test_app_id', $jsonData['appid']);
+        $this->assertEquals('test_secret', $jsonData['secret']);
+        $this->assertFalse($jsonData['force_refresh']);
     }
 
-    public function testGetRequestOptions_withCustomValues(): void
+    public function testGetRequestOptionsWithCustomValues(): void
     {
         // 设置自定义值
         $this->request->setGrantType('custom_grant_type');
@@ -43,12 +53,16 @@ class StableTokenRequestTest extends TestCase
         $this->request->setForceRefresh(true);
 
         $options = $this->request->getRequestOptions();
+        $this->assertArrayHasKey('json', $options);
+
+        $jsonData = $options['json'];
+        $this->assertIsArray($jsonData);
 
         // 验证自定义值
-        $this->assertEquals('custom_grant_type', $options['json']['grant_type']);
-        $this->assertEquals('custom_app_id', $options['json']['appid']);
-        $this->assertEquals('custom_secret', $options['json']['secret']);
-        $this->assertTrue($options['json']['force_refresh']);
+        $this->assertEquals('custom_grant_type', $jsonData['grant_type']);
+        $this->assertEquals('custom_app_id', $jsonData['appid']);
+        $this->assertEquals('custom_secret', $jsonData['secret']);
+        $this->assertTrue($jsonData['force_refresh']);
     }
 
     public function testGrantType(): void
@@ -78,7 +92,7 @@ class StableTokenRequestTest extends TestCase
         $this->request->getAppId();
     }
 
-    public function testAppId_whenSet(): void
+    public function testAppIdWhenSet(): void
     {
         $this->request->setAppId('test_app_id');
         $this->assertEquals('test_app_id', $this->request->getAppId());
@@ -91,7 +105,7 @@ class StableTokenRequestTest extends TestCase
         $this->request->getSecret();
     }
 
-    public function testSecret_whenSet(): void
+    public function testSecretWhenSet(): void
     {
         $this->request->setSecret('test_secret');
         $this->assertEquals('test_secret', $this->request->getSecret());

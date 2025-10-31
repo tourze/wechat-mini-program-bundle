@@ -7,11 +7,21 @@ services:
 
   WechatMiniProgramBundle\Command\:
     resource: '../../Command/'
-  WechatMiniProgramBundle\DataFixtures\:
-    resource: '../../DataFixtures/'
+    public: true
+  WechatMiniProgramBundle\Controller\:
+    resource: '../../Controller/'
   WechatMiniProgramBundle\Procedure\:
     resource: '../../Procedure/'
   WechatMiniProgramBundle\Repository\:
     resource: '../../Repository/'
   WechatMiniProgramBundle\Service\:
     resource: '../../Service/'
+    
+  WechatMiniProgramBundle\Service\AdminMenu:
+    public: true
+    
+  WechatMiniProgramBundle\Service\Client:
+    public: true
+    
+  WechatMiniProgramBundle\Service\PathParser:
+    public: true

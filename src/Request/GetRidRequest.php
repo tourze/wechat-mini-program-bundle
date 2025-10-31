@@ -11,7 +11,10 @@ class GetRidRequest extends WithAccountRequest
         return '/cgi-bin/openapi/rid/get';
     }
 
-    public function getRequestOptions(): ?array
+    /**
+     * @return array<string, mixed>
+     */
+    public function getRequestOptions(): array
     {
         $json = [
             'rid' => $this->getRid(),

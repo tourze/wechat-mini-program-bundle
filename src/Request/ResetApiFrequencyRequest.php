@@ -20,7 +20,10 @@ class ResetApiFrequencyRequest implements RequestInterface
         return '/cgi-bin/clear_quota/v2';
     }
 
-    public function getRequestOptions(): ?array
+    /**
+     * @return array<string, mixed>
+     */
+    public function getRequestOptions(): array
     {
         $json = [
             'appid' => $this->getAppId(),

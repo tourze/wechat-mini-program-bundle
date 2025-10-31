@@ -2,8 +2,6 @@
 
 namespace WechatMiniProgramBundle\Exception;
 
-use RuntimeException;
-
-class AccountNotFoundException extends RuntimeException
+class AccountNotFoundException extends \RuntimeException
 {
 }

@@ -3,30 +3,37 @@
 namespace WechatMiniProgramBundle\Request;
 
 use HttpClientBundle\Request\ApiRequest;
-use WechatMiniProgramBundle\Entity\Account;
+use Tourze\WechatMiniProgramAppIDContracts\MiniProgramInterface;
 
 abstract class WithAccountRequest extends ApiRequest implements AppendAccessToken
 {
     /**
-     * @var Account 请求关联的Account信息
+     * @var MiniProgramInterface 请求关联的Account信息
      */
-    private Account $account;
+    private MiniProgramInterface $account;
 
-    public function getAccount(): Account
+    public function getAccount(): MiniProgramInterface
     {
         return $this->account;
     }
 
-    public function setAccount(Account $account): void
+    public function setAccount(MiniProgramInterface $account): void
     {
         $this->account = $account;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function generateLogData(): array
     {
         $result = parent::generateLogData();
-        if ((bool) $result && isset($this->account)) {
-            $result['account'] = strval($this->account);
+        if (null === $result) {
+            $result = [];
+        }
+
+        if (isset($this->account)) {
+            $result['account'] = $this->account instanceof \Stringable ? strval($this->account) : $this->account->getAppId();
         }
 
         return $result;
