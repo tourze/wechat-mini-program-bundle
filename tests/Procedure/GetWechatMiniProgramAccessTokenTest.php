@@ -16,8 +16,6 @@ use WechatMiniProgramBundle\Procedure\GetWechatMiniProgramAccessToken;
 #[RunTestsInSeparateProcesses]
 final class GetWechatMiniProgramAccessTokenTest extends AbstractProcedureTestCase
 {
-    protected const PROCEDURE_CLASS = GetWechatMiniProgramAccessToken::class;
-
     protected function onSetUp(): void
     {
         // 无需额外设置
