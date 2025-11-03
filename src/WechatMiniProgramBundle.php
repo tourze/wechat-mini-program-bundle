@@ -16,6 +16,7 @@ use Tourze\DoctrineUserBundle\DoctrineUserBundle;
 use Tourze\JsonRPCLogBundle\JsonRPCLogBundle;
 use Tourze\WechatMiniProgramAppIDContracts\MiniProgramInterface;
 use WechatMiniProgramBundle\Entity\Account;
+use Tourze\EasyAdminMenuBundle\EasyAdminMenuBundle;
 
 class WechatMiniProgramBundle extends Bundle implements BundleDependencyInterface
 {
@@ -42,6 +43,7 @@ class WechatMiniProgramBundle extends Bundle implements BundleDependencyInterfac
             DoctrineTrackBundle::class => ['all' => true],
             JsonRPCLogBundle::class => ['all' => true],
             HttpClientBundle::class => ['all' => true],
+            EasyAdminMenuBundle::class => ['all' => true],
         ];
     }
 }
