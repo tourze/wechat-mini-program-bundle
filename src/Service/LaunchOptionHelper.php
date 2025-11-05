@@ -62,7 +62,6 @@ readonly class LaunchOptionHelper
      */
     private function extractOptionsFromObject(object $object): array
     {
-        // @phpstan-ignore-next-line method.notFound (checked with method_exists)
         $enterOptions = $object->getEnterOptions();
 
         if (!is_array($enterOptions) && !is_object($enterOptions)) {
@@ -74,7 +73,6 @@ readonly class LaunchOptionHelper
         $enterQuery = ArrayHelper::getValue($enterOptions, 'query', []);
         $query = is_array($enterQuery) ? $enterQuery : [];
 
-        // @phpstan-ignore-next-line method.notFound (checked with method_exists)
         $launchOptions = $object->getLaunchOptions();
         $launchQuery = is_array($launchOptions) && isset($launchOptions['query']) ? $launchOptions['query'] : [];
         $launchQuery = is_array($launchQuery) ? $launchQuery : [];

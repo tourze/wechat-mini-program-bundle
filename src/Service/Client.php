@@ -113,7 +113,6 @@ class Client extends ApiClient
         $result = $this->cache->get($cacheKey, fn (ItemInterface $item) => $this->buildTokenCacheResult($account, $refresh, $item));
 
         // 缓存可能返回混合类型，需要验证格式
-        // @phpstan-ignore function.alreadyNarrowedType
         if (!is_array($result)) {
             throw new WechatApiException('缓存返回数据格式错误');
         }
