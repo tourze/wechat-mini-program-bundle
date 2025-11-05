@@ -96,7 +96,6 @@ final class AccountCrudController extends AbstractCrudController
         yield AssociationField::new('director', '负责人')
             ->setColumns(6)
             ->setHelp('该小程序账户的负责人')
-            ->autocomplete()
         ;
 
         // 状态字段
