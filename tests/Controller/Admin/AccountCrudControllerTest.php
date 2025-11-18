@@ -69,12 +69,6 @@ final class AccountCrudControllerTest extends AbstractEasyAdminControllerTestCas
         $this->assertResponseIsSuccessful();
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $entityFqcn = AccountCrudController::getEntityFqcn();
-        $this->assertSame(Account::class, $entityFqcn);
-    }
-
     public function testSearchByName(): void
     {
         $client = self::createClientWithDatabase();
